@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script>
+        var dict = {};
+        function onClick () {
+            // 这里的 parent 其实就是外部的 window
+            // 这样一来就可以访问到定义在 cc 的函数了
+
+            console.log("onClick =");
+            alert('onClick=' + dict["test"]);
+
+        }
+
+        function onClick1 (data) {
+            // 这里的 parent 其实就是外部的 window
+            // 这样一来就可以访问到定义在 cc 的函数了
+            console.log("onClick1 =" + data);
+
+            dict["test"] = data;
+
+            alert('onClick1');
+        }
+    </script>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+
+    <input type="button" value="测试" onclick="onClick()"/>
+  </body>
+</html>
