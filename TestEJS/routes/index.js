@@ -12,4 +12,17 @@ router.get('/index2', function(req, res, next) {
 });
 
 
+/* GET home page. */
+router.get('/execB', function(req, res, next) {
+    res.render('execB', { title: 'Express' });
+});
+
+/* GET home page. */
+router.get('/execA', function(req, res, next) {
+    res.render('execA', { title: 'Express' });
+});
+
+
+
+
 module.exports = router;

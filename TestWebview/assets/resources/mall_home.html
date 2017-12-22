@@ -1,0 +1,319 @@
+<!DOCTYPE html >
+<html>
+<!-- PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+        xmlns="http://www.w3.org/1999/xhtml" -->
+<head>
+    <meta charset="UTF-8"/>
+    <title>手机商城</title>
+    <!--<meta name="viewport"-->
+          <!--content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui"/>-->
+    <!--<meta name="apple-mobile-web-app-status-bar-style" content="black"/>-->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-transform"/>
+    <!-- 开启对web app的支持 -->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- 主要是正对苹果手机将数字自动识别为号码 -->
+    <meta name="format-detection" content="telephone=no"/>
+    <!-- UC默认竖屏 ，UC强制全屏 -->
+    <meta name="full-screen" content="true">
+    <meta name="browsermode" content="application">
+    <!-- QQ强制竖屏 QQ强制全屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="x5-page-mode" content="app">
+
+    <script src="public/jquery/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <script type="text/JavaScript" src="js/mallCommon.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/JavaScript" src="js/jquery.touchSwipe.min.js"></script>
+    <link rel="stylesheet" href="public/minirefresh/minirefresh.css"/>
+    <link rel="stylesheet" href="public/minirefresh/common.css"/>
+    <script type="text/javascript" src="public/minirefresh/minirefresh.js"></script>
+    <!--  <script type="text/javascript" src="/public/minirefresh/common.js"></script> -->
+
+    <!--   <link href="/public/mui/css/mui.min.css" rel="stylesheet"
+            type="text/css"/>
+      <script src="/public/mui/js/mui.min.js" type="text/JavaScript"></script> -->
+
+    <!--  <script src="http://www.dcloud.io/hellomui/js/mui.min.js"></script>
+     <link href="http://www.dcloud.io/hellomui/css/mui.min.css" rel="stylesheet"
+           type="text/css"/> -->
+
+    <style type="text/css">
+        body {
+            /* 	 position: fixed; */
+            width: 100%;
+            height: 100%;
+            font-size: 25px;
+
+        }
+
+        .carousel-inner div {
+            width: 100%;
+            height: 100%;
+        }
+
+        .item {
+            width: 100%;
+            height: 100%;
+        }
+
+        .item img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .carousel-caption {
+
+        }
+
+        #mallList {
+            overflow: hidden;
+            background-image: url("images/bg.png");
+            width: 100%;
+            height: auto;
+            background-size: 100% 100%;
+        }
+
+        .minirefresh-wrap {
+            text-align: center;
+            width: 100%;
+            height: auto;
+            margin-top: 0px;
+            top: 0px;
+            /*   margin-top: 45px;  */
+            /*  top: 47%; */
+            /* max-top:40%;
+            min-top:35%; */
+        }
+
+        .minirefresh-scroll {
+            margin-top: 0px;
+            top: 0px;
+        }
+
+        .mallDetailed {
+            float: left;
+            margin-left: 2.5%;
+            text-align: center;
+            height: auto;
+            top: 1%;
+            border-radius: 1%;
+            /*background-color: aliceblue;*/
+            margin-bottom: 1%;
+            font-size: 12px;
+        }
+
+        .mallDetailed img {
+            margin-top: 2%;
+            width: 80%;
+            height: auto;
+        }
+
+        h6 {
+            font-size: 15px;
+            text-align: center;
+            text-decoration: none;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-top: 2%;
+            margin-bottom: 2%;
+            text-overflow: ellipsis;
+            color: white;
+        }
+
+        .price {
+            color: #bbbbbb;
+            font-size: 10px;
+            text-align: center;
+            text-decoration: none;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 2%;
+            margin-bottom: 2%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-decoration: line-through;
+
+        }
+
+        .mallLink {
+            margin-top: 2%;
+            width: auto;
+            text-decoration: none;
+            height: auto;
+            color: white;;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+        .mallText {
+            margin: 1%;
+        }
+    </style>
+
+</head>
+
+<!-- 
+onpageshow="show()"
+ -->
+<body style="min-width: 300px">
+
+<div id="minirefresh" class="minirefresh-wrap" >
+    <div class="minirefresh-scroll">
+        <div id="mallList">
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    var openId = GetQueryString("openId");
+    var merchantId = GetQueryString("merchantId");
+    var userId = GetQueryString("userId");
+    var sourceType = GetQueryString("sourceType");
+    var redirctParam = {};
+    redirctParam.openId = openId;
+    redirctParam.userId = userId;
+    redirctParam.sourceType = sourceType;
+    redirctParam.merchantId = merchantId;
+
+    //alert(jointUrl(redirctParam));
+
+
+    var miniRefresh;
+    var page = 1;
+
+
+    var num = 4;
+    var width = document.body.clientWidth / (num + 1);
+
+
+    $(function () {
+        window.addEventListener("popstate", function (e) {
+        }, false);
+    });
+
+    window.onpopstate = function () {
+        // 获得存储在该历史记录点的json对象
+        var json = window.history.state;
+        // 点击一次回退到：http://qianduanblog.com/index.html
+        // 获得的json为null
+        // 再点击一次前进到：http://qianduanblog.com/post-1.html
+        // 获得json为{time:1369647895656}
+        alert("mallHome::" + json);
+    };
+
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    //    var customerInfo = JSON.parse(window.localStorage.getItem(openId));
+    //
+    //    if (merchantId == null || (merchantId != null && merchantId.length == 0)) {
+    //        if (customerInfo == null || (customerInfo != null && customerInfo["merchantId"] == null)) {
+    //            var redirectUrl = "/mall/mallMerchant" + jointUrl(redirctParam);
+    //            window.location.href = redirectUrl;
+    //        }
+    //        else {
+    //            merchantId = customerInfo["merchantId"];
+    //            redirctParam.merchantId = merchantId;
+    //        }
+    //    }
+
+    $(function () {
+        if (merchantId != null) {
+            miniRefresh = new MiniRefresh({
+                container: '#minirefresh',
+                down: {
+                    isLock: true,
+                },
+                up: {
+                    isAuto: true,
+                    callback: function () {
+                        productList();
+                    }
+                }
+            });
+        }
+    });
+
+    function openMall(productId) {
+//	alert("openId:"+openId+",merchantId:"+GetQueryString("merchantId")+',productId='+productId);
+        var redirectUrl = 'game://mallDetail?merchantId=' + merchantId + '&userId=' + userId + '&productId=' + productId;
+        console.log("test");
+        document.location = redirectUrl;
+    }
+
+    function productList() {
+        var dataSet = "merchantId=" + merchantId + "&pageIndex=" + page + "&pageSize=10";
+        if (openId != null) {
+            dataSet += "&openId=" + openId;
+        }
+        if (userId != null) {
+            dataSet += "&userId=" + userId;
+        }
+        $.ajax({
+            type: 'POST',                //数据提交方式
+            url: 'http://mall.yiqu18.com/mall/recommendProductList',   //数据提交路径
+            async: 'true', // true   // 是否支持异步刷新 默认为 true
+            data: dataSet, // 需要提交的数据
+            contentType: 'application/x-www-form-urlencoded', // 客端户端发送给服务器的数据类型(待确定)
+            //请求成功后回调函数
+            success: function (data, status, xhr) {
+                if (data.success) {
+                    var strInfo = '';
+                    var shopDatas = data.data;
+                    for (var i = 0; i < shopDatas.length; i++) {
+                        var shopName = "<h6>" + shopDatas[i].scratchCardName + "</h6>";
+                        var shopImg = "<div class='mallDetailed' onClick=openMall(" + shopDatas[i].id + ")><img style='height:" + (width-width/(num)) + "px;' src=" + shopDatas[i].imgUrl + "  &nbsp  />";
+                        var shopMoney = "<h6>￥ " + returnFloat(shopDatas[i].scratchCardPrice - shopDatas[i].discountPrice) + "</h6>";
+                        var shopPrice = "<h6 class='price'>￥ " + returnFloat(shopDatas[i].scratchCardPrice) + "</h6>" + "</div>";
+                        strInfo = strInfo + shopImg + shopName + shopMoney + shopPrice;
+                    }
+                    strInfo = strInfo;
+                    var list = document.getElementById('mallList');
+                    if (strInfo != null) {
+                        strInfo = list.innerHTML + strInfo;
+                        list.innerHTML = strInfo;
+                        var mall = document.getElementsByClassName('mallDetailed');
+                        var a;
+                        for (a = 0; a < mall.length; a++) {
+                            mall[a].style.width = width + "px";
+                        }
+                    }
+                    if (shopDatas.length < 10) {
+                        miniRefresh.endUpLoading(true);
+                        miniRefresh._lockUpLoading(true);
+                    } else {
+                        page++;
+                        miniRefresh.endUpLoading(false);
+                    }
+                } else {
+                    miniRefresh.endUpLoading(true);
+                    alert(data.errorMsg);
+                }
+            },
+            //请求失败后回调函数
+            error: function (error) {
+                console.log("error", error);
+                responseError(error);
+            }
+        });
+    }
+</script>
+</html>                
